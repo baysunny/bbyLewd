@@ -1,0 +1,4 @@
+discord
+PyNaCl
+dnspython
+async-timeout
