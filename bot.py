@@ -8,7 +8,6 @@ def read_token():
         return lines[0].strip()
 
 
-
 l = "https://discordapp.com/oauth2/authorize?client_id=758150057370451978&scope=bot&permissions=0"
 token = read_token()
 client = discord.Client()
@@ -16,6 +15,16 @@ client = discord.Client()
 short_memory = [
 ]
 morning_greeting = {}
+
+
+@client.event
+async def on_member_update(before, after):
+    n = after.nick
+    if n:
+        if str(before.id) == "736028616764424195":
+            last = before.nick
+            if last:
+                await after.edit(nick=last)
 
 
 @client.event
