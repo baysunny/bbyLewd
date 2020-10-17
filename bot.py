@@ -33,8 +33,8 @@ async def on_member_update(before, after):
     if after.status != before.status:
         print(f"[{now.strftime('%H:%M:%S')} status changed]")
         print(f"-{before.nick} : {after.status}\n")
-        member = server.get_member(before.id)
-        if member is not None:
-            await channel.send(f"{now.strftime('%H:%M:%S')}:[{member.status}]{member.nick}")
+        # member = server.get_member(before.id)
+        # if member is not None:
+        await channel.send(f"{now.strftime('%H:%M:%S')}:[{member.status}]{member.nick}")
 
 client.run(token)
