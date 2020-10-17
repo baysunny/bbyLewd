@@ -9,6 +9,7 @@ test_server_id = 739864997865455626
 list_server = [lewd_server_id, test_server_id]
 member_id = [736028616764424195, 762590005314715659]
 
+
 @client.event
 async def on_ready():
     print(f"logged in as {client.user}\n")
@@ -18,8 +19,8 @@ async def on_ready():
 async def on_message(message):
     test_server = client.get_guild(test_server_id)
 
-    # elif message.content.lower == "!out!":
-    #     await client.close()
+    if message.content.lower == "!o!":
+        await message.channel.send("hi")
     # print(test_server.id)
     # print(message.channel)
 
@@ -35,6 +36,6 @@ async def on_member_update(before, after):
         print(f"-{before.nick} : {after.status}\n")
         # member = server.get_member(before.id)
         # if member is not None:
-        await channel.send(f"{now.strftime('%H:%M:%S')}:[{before.status}]{before.nick}")
+        await channel.send(f"{now.strftime('%H:%M:%S')}:[{after.status}]{before.nick}")
 
 client.run(token)
