@@ -1,9 +1,10 @@
-from datetime import datetime
 import discord
+from datetime import datetime
 
 
 token = "NzU4MTUwMDU3MzcwNDUxOTc4.X2qwQw.f4hIHfMr42IwoJkl8XwZDU4JevU"
 client = discord.Client()
+bot_id = 758150057370451978
 lewd_server_id = 757865220604690443
 test_server_id = 739864997865455626
 list_server = [lewd_server_id, test_server_id]
@@ -18,8 +19,9 @@ async def on_ready():
 @client.event
 async def on_message(message):
     test_server = client.get_guild(test_server_id)
-
-    if message.content.lower == "!o!":
+    if message.author.id == bot_id:
+        pass
+    elif str(message.content).lower() == "hi":
         await message.channel.send("hi")
     # print(test_server.id)
     # print(message.channel)
