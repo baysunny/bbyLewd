@@ -33,10 +33,10 @@ async def on_member_update(before, after):
     now = datetime.now()
     server = client.get_guild(test_server_id)
     channel = client.get_channel(739864997865455629)
-
-    if after.status != before.status:
-        print(f"[{now.strftime('%H:%M:%S')} status changed]")
-        print(f"-{before.nick} : {after.status}\n")
-        await channel.send(f"{now.strftime('%H:%M:%S')} ---:--- [{after.status}] {before.nick}")
+    if channel is not None:
+        if after.status != before.status:
+            print(f"[{now.strftime('%H:%M:%S')} status changed]")
+            print(f"-{before.nick} : {after.status}\n")
+            await channel.send(f"{now.strftime('%H:%M:%S')} ---:--- [{after.status}] {before.nick}")
 
 client.run(token)
