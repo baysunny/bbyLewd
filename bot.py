@@ -29,15 +29,15 @@ async def on_message(message):
 
 @client.event
 async def on_member_update(before, after):
-    now = datetime.now()
+    # now = datetime.now()
     server = client.get_guild(test_server_id)
     channel = client.get_channel(739864997865455629)
 
     if after.status != before.status:
-        print(f"[{now.strftime('%H:%M:%S')} status changed]")
+        # print(f"[{now.strftime('%H:%M:%S')} status changed]")
         print(f"-{before.nick} : {after.status}\n")
         # member = server.get_member(before.id)
         # if member is not None:
-        await channel.send(f"{now.strftime('%H:%M:%S')}:[{after.status}]{before.nick}")
+        await channel.send(f": [{after.status}] {before.nick}")
 
 client.run(token)
