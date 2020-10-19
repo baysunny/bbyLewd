@@ -28,6 +28,7 @@ async def on_message(message):
     if message.author.id == bot_id:
         pass
     elif str(message.content).lower() == "hi":
+        await message.channel.send("hello")
         await message.channel.send(f"{now.strftime('%H:%M:%S')} -- hi")
     # print(test_server.id)
     # print(message.channel)
@@ -37,14 +38,12 @@ async def on_message(message):
 async def on_member_update(before, after):
     now = datetime.now()
     channel = client.get_channel(channels["log-channel"])
-
-    try:
-        if channel is not None:
-            if after.status != before.status:
-                print(f"[{now.strftime('%H:%M:%S')} status changed]")
-                print(f"-{before.nick} : {after.status}\n")
-                await channel.send(f"{now.strftime('%H:%M:%S')} ---:--- [{after.status}] {before.nick}")
-    except Exception as e:
-        await channel.send(str(e))
+    await channel.send("test")
+    await channel.send(channel)
+    # if channel is not None:
+    #     if after.status != before.status:
+    #         print(f"[{now.strftime('%H:%M:%S')} status changed]")
+    #         print(f"-{before.nick} : {after.status}\n")
+    #         await channel.send(f"{now.strftime('%H:%M:%S')} ---:--- [{after.status}] {before.nick}")
 
 client.run(token)
