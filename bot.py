@@ -76,20 +76,18 @@ async def on_message(message):
             pass
         else:
             if len(messages) > 1:
-                if messages[0] in acts:
-                    if messages[1][2:-1] == str(mentioned_members[0].id):
-                        embed = discord.Embed(
-                            title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
-                            description="im confused",
-                            color=0x00ff00)
-                        embed.set_image(url=get_gif(f"anime {messages[0]}"))
-                        await message.channel.send(embed=embed)
-                    else:
-                        print("error 1")
-                        print(messages[1][2:-1])
-                        print(mentioned_members[0].id)
+
+                if messages[1][2:-1] == str(mentioned_members[0].id):
+                    embed = discord.Embed(
+                        title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
+                        description="im confused",
+                        color=0x00ff00)
+                    embed.set_image(url=get_gif(f"anime {messages[0]}"))
+                    await message.channel.send(embed=embed)
                 else:
-                    print(f"error 2: {messages[0]}")
+                    print("error 1")
+                    print(messages[1][2:-1])
+                    print(mentioned_members[0].id)
             else:
                 print(f"error 3: {len(messages)}")
 
