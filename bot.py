@@ -147,18 +147,19 @@ async def on_member_remove(member):
 @client.event
 async def on_member_update(before, after):
     channel = client.get_channel(channels["bbyLewd-channel"])
-    if channel is not None:
-        if after.status != before.status:
-            print(f"[{get_current_time()} status changed]")
-            print(f"-{before.nick} : {after.status}\n")
-            emoji = ""
-            if str(after.status) == "online":
-                emoji = "<:Nep_owo_LC:762586025402826793>"
-            elif str(after.status) == "offline":
-                emoji = "<:Paimon_dead_LC:762586355817381888>"
-            else:
-                emoji = "<:Kelly_angel_LC:762586163500154900>"
-            await channel.send(f"{emoji}{emoji}{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
+    if not before.bot:
+        if channel is not None:
+            if after.status != before.status:
+                print(f"[{get_current_time()} status changed]")
+                print(f"-{before.nick} : {after.status}\n")
+                emoji = ""
+                if str(after.status) == "online":
+                    emoji = "<:Nep_owo_LC:762586025402826793>"
+                elif str(after.status) == "offline":
+                    emoji = "<:Paimon_dead_LC:762586355817381888>"
+                else:
+                    emoji = "<:Kelly_angel_LC:762586163500154900>"
+                await channel.send(f"{emoji}{emoji}{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
 
 
 client.run(token)
