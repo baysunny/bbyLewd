@@ -158,7 +158,7 @@ async def on_member_update(before, after):
                 emoji = "<:Paimon_dead_LC:762586355817381888>"
             else:
                 emoji = "<:Kelly_angel_LC:762586163500154900>"
-            await channel.send(f"{get_current_time()} --:-- [{after.status}] {emoji}{emoji} --:-- {before.display_name}")
+            await channel.send(f"{emoji}{emoji}{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
 
 
 client.run(token)
