@@ -3,6 +3,14 @@ from datetime import datetime
 import requests
 import json
 import random
+from pytz import timezone
+
+
+def get_current_time():
+    fmt = '%H:%M:%S'
+    eastern = timezone('Asia/Manila')
+    loc_dt = datetime.now(eastern)
+    return loc_dt.strftime(fmt)
 
 
 def get_gif(search):
@@ -28,14 +36,15 @@ def get_gif(search):
 
 
 token = "NzU4MTUwMDU3MzcwNDUxOTc4.X2qwQw.f4hIHfMr42IwoJkl8XwZDU4JevU"
-client = discord.Client()
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 
 servers = {
     "lewd-server": 757865220604690443,
     "test-server": 739864997865455626
 }
 channels = {
-    "log-channel":     739864997865455629,
+    "log-channel": 739864997865455629,
     "bbyLewd-channel": 762607426582085642
 }
 
@@ -60,17 +69,18 @@ async def on_message(message):
 
     if message.author.id == bot_id:
         pass
-    elif str(message.content).lower() == "hi":
-        await message.channel.send(f"{now.strftime('%H:%M:%S')} -- hi")
+    elif str(message.content).lower() == "i":
+        emojis = message.guild.emojis
+        await message.channel.send(f"{get_current_time()} sent emoji:  {emojis[0]}")
     else:
         messages = str(message.content).lower().split()
         mentioned_members = message.mentions
         print("\n======= new message")
-        print(f"{message.author.display_name}: {message.content}")
-        print(f"author   : {message.author.display_name}")
-        print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
-        print(f"message  : {message.content} | {len(messages)}")
-        print(f"messages : {messages}")
+        print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
+        # print(f"author   : {message.author.display_name}")
+        # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
+        # print(f"message  : {message.content} | {len(messages)}")
+        # print(f"messages : {messages}")
 
         if len(mentioned_members) > 1 or len(mentioned_members) == 0:
             pass
@@ -136,13 +146,19 @@ async def on_member_remove(member):
 
 @client.event
 async def on_member_update(before, after):
-    now = datetime.now()
-    channel = client.get_channel(channels["log-channel"])
+    channel = client.get_channel(channels["bbyLewd-channel"])
     if channel is not None:
         if after.status != before.status:
-            print(f"[{now.strftime('%H:%M:%S')} status changed]")
+            print(f"[{get_current_time()} status changed]")
             print(f"-{before.nick} : {after.status}\n")
-            await channel.send(f"{now.strftime('%H:%M:%S')} ---:--- [{after.status}] {before.nick}")
+            emoji = ""
+            if str(after.status) == "online":
+                emoji = "<:Nep_owo_LC:762586025402826793>"
+            elif str(after.status) == "offline":
+                emoji = "<:Paimon_dead_LC:762586355817381888>"
+            else:
+                emoji = "<:Kelly_angel_LC:762586163500154900>"
+            await channel.send(f"{get_current_time()} ---:--- [{after.status}] {emoji}{emoji} {before.display_name}")
 
 
 client.run(token)
