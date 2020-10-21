@@ -44,7 +44,8 @@ servers = {
     "test-server": 739864997865455626
 }
 channels = {
-    "log-channel": 739864997865455629,
+    "log-channel": 768457244769517588,
+    "message-channel": 768457273554108447,
     "bbyLewd-channel": 762607426582085642
 }
 
@@ -73,10 +74,12 @@ async def on_message(message):
         emojis = message.guild.emojis
         await message.channel.send(f"{get_current_time()} sent emoji:  {emojis[0]}")
     else:
+        channel = client.get_channel(channels["message-channel"])
         messages = str(message.content).lower().split()
         mentioned_members = message.mentions
         print("\n======= new message")
         print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
+        await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {message.content}")
         # print(f"author   : {message.author.display_name}")
         # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
         # print(f"message  : {message.content} | {len(messages)}")
@@ -86,13 +89,16 @@ async def on_message(message):
             pass
         else:
             if len(messages) > 1:
-
-                if messages[1][2:-1] == str(mentioned_members[0].id):
+                print(messages[1][3:-1])
+                print(str(mentioned_members[0].id))
+                if messages[1][3:-1] == str(mentioned_members[0].id):
                     embed = discord.Embed(
                         title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
                         description="im confused",
                         color=0x00ff00)
-                    embed.set_image(url=get_gif(f"anime {messages[0]}"))
+                    url = get_gif(f"anime {messages[0]}")
+                    print(url)
+                    embed.set_image(url=url)
                     await message.channel.send(embed=embed)
                 else:
                     print("error 1")
