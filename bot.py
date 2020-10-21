@@ -7,7 +7,7 @@ from pytz import timezone
 
 
 def get_current_time():
-    fmt = '%h:%M:%S'
+    fmt = '%I:%M:%S %p'
     eastern = timezone('Asia/Jakarta')
     loc_dt = datetime.now(eastern)
     return loc_dt.strftime(fmt)
