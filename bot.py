@@ -46,6 +46,7 @@ servers = {
 channels = {
     "log-channel": 768457244769517588,
     "message-channel": 768457273554108447,
+    "welcum-channel": 757865221443289174,
     "bbyLewd-channel": 762607426582085642
 }
 
@@ -112,7 +113,7 @@ async def on_message(message):
 async def on_member_join(member):
     # server = client.get_guild(servers["lewd-server"])
     for channel in member.guild.channels:
-        if channel.id == channels["bbyLewd-channel"] or channel.id == channels["log-channel"]:
+        if channel.id == channels["welcum-channel"] or channel.id == channels["log-channel"]:
             description = random.choice(
                 ["who are you?",
                  "free whisshy whooshy for a week",
@@ -133,7 +134,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
     # server = client.get_guild(servers["lewd-server"])
     for channel in member.guild.channels:
-        if channel.id == channels["bbyLewd-channel"] or channel.id == channels["log-channel"]:
+        if channel.id == channels["welcum-channel"] or channel.id == channels["log-channel"]:
             description = random.choice(
                 ["bye bye",
                  "yay",
