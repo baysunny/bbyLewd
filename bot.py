@@ -7,8 +7,8 @@ from pytz import timezone
 
 
 def get_current_time():
-    fmt = '%H:%M:%S'
-    eastern = timezone('Asia/Manila')
+    fmt = '%h:%M:%S'
+    eastern = timezone('Asia/Jakarta')
     loc_dt = datetime.now(eastern)
     return loc_dt.strftime(fmt)
 
@@ -146,7 +146,7 @@ async def on_member_remove(member):
 
 @client.event
 async def on_member_update(before, after):
-    channel = client.get_channel(channels["bbyLewd-channel"])
+    channel = client.get_channel(channels["log-channel"])
     if not before.bot:
         if channel is not None:
             if after.status != before.status:
@@ -159,7 +159,7 @@ async def on_member_update(before, after):
                     emoji = "<:Paimon_dead_LC:762586355817381888>"
                 else:
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
-                await channel.send(f"{emoji}{emoji}{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
+                await channel.send(f"{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
 
 
 client.run(token)
