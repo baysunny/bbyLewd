@@ -46,6 +46,7 @@ servers = {
 channels = {
     "log-channel": 768457244769517588,
     "message-channel": 768457273554108447,
+    "image-channel": 769195772897787943,
     "welcum-channel": 757865221443289174,
     "bbyLewd-channel": 762607426582085642
 }
@@ -66,47 +67,68 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    now = datetime.now()
-    acts = ["hug", "slap", "kiss", "fuck", "lick", "snipe", "kill", "hide", "sneak"]
+    # acts = ["hug", "slap", "kiss", "fuck", "lick", "snipe", "kill", "hide", "sneak"]
 
     if message.author.id == bot_id:
         pass
     elif str(message.content).lower() == "i":
-        emojis = message.guild.emojis
-        await message.channel.send(f"{get_current_time()} sent emoji:  {emojis[0]}")
+        await message.channel.send(f"{get_current_time()} sent emoji: hi")
     else:
-        channel = client.get_channel(channels["message-channel"])
-        messages = str(message.content).lower().split()
-        mentioned_members = message.mentions
-        print("\n======= new message")
-        print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-        await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {message.content}")
-        # print(f"author   : {message.author.display_name}")
-        # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
-        # print(f"message  : {message.content} | {len(messages)}")
-        # print(f"messages : {messages}")
+        message_type = ""
+        url = ""
+        if len(message.attachments) != 0:
+            url = message.attachments[0].url
+            print(url)
+            message_type = "image"
+        # pic_ext = [".jpg", ".png", ".jpeg"]
+        # for ext in pic_ext:
+        #     if message.content.endswith(ext):
+        #         try:
+        #             # url = message.attachments[0]["url"]
+        #             print(message.attachments)
+        #             print("an image detected")
+        #             print(url)
+        #         except IndexError:
+        #             print("index error")
 
-        if len(mentioned_members) > 1 or len(mentioned_members) == 0:
-            pass
+        if message_type == "image":
+            print("image type")
+            channel = client.get_channel(channels["image-channel"])
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {url}")
         else:
-            if len(messages) > 1:
-                print(messages[1][3:-1])
-                print(str(mentioned_members[0].id))
-                if messages[1][3:-1] == str(mentioned_members[0].id):
-                    embed = discord.Embed(
-                        title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
-                        description="im confused",
-                        color=0x00ff00)
-                    url = get_gif(f"anime {messages[0]}")
-                    print(url)
-                    embed.set_image(url=url)
-                    await message.channel.send(embed=embed)
-                else:
-                    print("error 1")
-                    print(messages[1][2:-1])
-                    print(mentioned_members[0].id)
+            print("text type")
+            channel = client.get_channel(channels["message-channel"])
+            messages = str(message.content).lower().split()
+            mentioned_members = message.mentions
+            print("\n======= new message")
+            print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {message.content}")
+            # print(f"author   : {message.author.display_name}")
+            # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
+            # print(f"message  : {message.content} | {len(messages)}")
+            # print(f"messages : {messages}")
+
+            if len(mentioned_members) > 1 or len(mentioned_members) == 0:
+                pass
             else:
-                print(f"error 3: {len(messages)}")
+                if len(messages) > 1:
+                    print(messages[1][3:-1])
+                    print(str(mentioned_members[0].id))
+                    if messages[1][3:-1] == str(mentioned_members[0].id):
+                        embed = discord.Embed(
+                            title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
+                            description="im confused",
+                            color=0x00ff00)
+                        url = get_gif(f"anime {messages[0]}")
+                        print(url)
+                        embed.set_image(url=url)
+                        await message.channel.send(embed=embed)
+                    else:
+                        print("error 1")
+                        print(messages[1][2:-1])
+                        print(mentioned_members[0].id)
+                else:
+                    print(f"error 3: {len(messages)}")
 
 
 @client.event
