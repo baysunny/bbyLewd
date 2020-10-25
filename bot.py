@@ -4,6 +4,7 @@ import requests
 import json
 import random
 from pytz import timezone
+import io
 
 
 def get_current_time():
@@ -92,9 +93,15 @@ async def on_message(message):
         #             print("index error")
 
         if message_type == "image":
+            files = []
+            for file in message.attachments:
+                fp = io.BytesIO()
+                await file.save(fp)
+                files.append(discord.File(fp, filename=file.filename, spoiler=file.is_spoiler()))
+
             print("image type")
             channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {url}")
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: ", files=files)
         else:
             print("text type")
             channel = client.get_channel(channels["message-channel"])
