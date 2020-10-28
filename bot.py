@@ -103,7 +103,7 @@ async def on_message(message):
 
             print("image type")
             channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: ", files=files)
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name} : {message.content} : ", files=files)
         else:
             print("text type")
             channel = client.get_channel(channels["message-channel"])
