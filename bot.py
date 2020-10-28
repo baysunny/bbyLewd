@@ -152,9 +152,11 @@ async def on_message(message):
                         if len(url) != 0:
                             print(url)
                             embed.set_image(url=url)
-                            await message.channel.send(embed=embed)
+                            # await message.channel.send(embed=embed)
+                            pass
                         else:
-                            await message.channel.send("can't/can not/unable to can")
+                            pass
+                            # await message.channel.send("can't/can not/unable to can")
                     else:
                         print("error 1")
                         print(messages[1][2:-1])
