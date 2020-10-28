@@ -7,9 +7,9 @@ from pytz import timezone
 import io
 
 
-def get_current_time():
+def get_current_time(tz='Asia/Jakarta'):
     fmt = '%I:%M:%S %p'
-    eastern = timezone('Asia/Jakarta')
+    eastern = timezone(tz)
     loc_dt = datetime.now(eastern)
     return loc_dt.strftime(fmt)
 
@@ -73,7 +73,19 @@ async def on_message(message):
     if message.author.id == bot_id:
         pass
     elif str(message.content).lower() == "i":
+        c = 0
+        for m in message.guild.members:
+            if not m.bot:
+                c += 1
+        embed = discord.Embed(
+            description="testing",
+            color=0x00ff00)
+        embed.set_author(name=f"{message.author.display_name}")
+        embed.set_thumbnail(url=message.author.avatar_url)
+        embed.set_image(url=get_gif(gif_keys["server-joined"]))
+        embed.set_footer(text=f"{message.author.display_name} / member-{c}")
         await message.channel.send(f"{get_current_time()} sent emoji: hi")
+        await message.channel.send(embed=embed)
     else:
         message_type = ""
         url = ""
@@ -81,16 +93,6 @@ async def on_message(message):
             url = message.attachments[0].url
             print(url)
             message_type = "image"
-        # pic_ext = [".jpg", ".png", ".jpeg"]
-        # for ext in pic_ext:
-        #     if message.content.endswith(ext):
-        #         try:
-        #             # url = message.attachments[0]["url"]
-        #             print(message.attachments)
-        #             print("an image detected")
-        #             print(url)
-        #         except IndexError:
-        #             print("index error")
 
         if message_type == "image":
             files = []
@@ -124,7 +126,7 @@ async def on_message(message):
                     if messages[1][3:-1] == str(mentioned_members[0].id):
                         embed = discord.Embed(
                             title=f"{message.author.display_name} {messages[0]} {mentioned_members[0].display_name}",
-                            description="im confused",
+                            description="-",
                             color=0x00ff00)
                         url = get_gif(f"anime {messages[0]}")
                         print(url)
@@ -141,19 +143,26 @@ async def on_message(message):
 @client.event
 async def on_member_join(member):
     # server = client.get_guild(servers["lewd-server"])
+    c = 0
+    for m in member.guild.members:
+        if not m.bot:
+            c += 1
     for channel in member.guild.channels:
         if channel.id == channels["welcum-channel"] or channel.id == channels["log-channel"]:
             description = random.choice(
                 ["who are you?",
                  "free whisshy whooshy for a week",
                  f"say hi to {member.display_name}",
-                 "annyeong!"]
+                 "annyeong!",
+                 "enjoy the lewdness"]
             )
             embed = discord.Embed(
-                title=f"{member.display_name} joined the server",
                 description=description,
                 color=0x00ff00)
+            embed.set_author(name=f"welcum {member.display_name}")
+            embed.set_thumbnail(url=member.avatar_url)
             embed.set_image(url=get_gif(gif_keys["server-joined"]))
+            embed.set_footer(text=f"{member.display_name} joined the server as member-{c}")
             print("\n======= server update")
             print(f"{member.display_name} joined the server")
             await channel.send(embed=embed)
@@ -171,10 +180,12 @@ async def on_member_remove(member):
                  "shoo shoo"]
             )
             embed = discord.Embed(
-                title=f"{member.display_name} left the server!",
                 description=description,
                 color=0x00ff00)
+            embed.set_author(name=f"{member.display_name} left the server!")
+            embed.set_thumbnail(url=member.avatar_url)
             embed.set_image(url=get_gif(gif_keys["server-left"]))
+            embed.set_footer(text=f"{member.display_name} bye bye")
             print("\n======= server update")
             print(f"{member.display_name} left the server")
             await channel.send(embed=embed)
