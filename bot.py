@@ -112,7 +112,7 @@ async def on_message(message):
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: ```{message.content}```")
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {message.content}")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
             # print(f"message  : {message.content} | {len(messages)}")
