@@ -33,7 +33,7 @@ def get_gif(search):
         for i in range(len(top_8gifs['results'])):
             url = top_8gifs['results'][i]['media'][0]['gif']['url']
             gifs.append(url)
-    return random.choice(gifs)
+    return random.choice(gifs) if len(gifs) > 0 else ""
 
 
 token = "NzU4MTUwMDU3MzcwNDUxOTc4.X2qwQw.f4hIHfMr42IwoJkl8XwZDU4JevU"
@@ -103,7 +103,7 @@ async def on_message(message):
 
             print("image type")
             channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name} : {message.content} : ", files=files)
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name} : ```{message.content}``` : ", files=files)
         else:
             print("text type")
             channel = client.get_channel(channels["message-channel"])
@@ -111,7 +111,7 @@ async def on_message(message):
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: {message.content}")
+            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: ```{message.content}```")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
             # print(f"message  : {message.content} | {len(messages)}")
@@ -129,9 +129,12 @@ async def on_message(message):
                             description="-",
                             color=0x00ff00)
                         url = get_gif(f"anime {messages[0]}")
-                        print(url)
-                        embed.set_image(url=url)
-                        await message.channel.send(embed=embed)
+                        if len(url) != 0:
+                            print(url)
+                            embed.set_image(url=url)
+                            await message.channel.send(embed=embed)
+                        else:
+                            await message.channel.send("can't/can not/unable to can")
                     else:
                         print("error 1")
                         print(messages[1][2:-1])
