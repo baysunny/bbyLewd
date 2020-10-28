@@ -45,6 +45,7 @@ servers = {
     "test-server": 739864997865455626
 }
 channels = {
+    "chit-chat-channel": 757902469568135209,
     "user-channel": 764099351172874280,
     "log-channel": 768457244769517588,
     "message-channel": 768457273554108447,
@@ -52,6 +53,8 @@ channels = {
     "welcum-channel": 757865221443289174,
     "bbyLewd-channel": 762607426582085642
 }
+
+counter = {}
 
 bot_id = 758150057370451978
 member_id = [736028616764424195, 762590005314715659]
@@ -69,11 +72,27 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    # acts = ["hug", "slap", "kiss", "fuck", "lick", "snipe", "kill", "hide", "sneak"]
 
     if message.author.id == bot_id:
-        pass
-    elif str(message.content).lower() == "i":
+        return
+    else:
+        if message.author.id not in counter:
+            counter[message.author.id] = [0, datetime.now()]
+        else:
+            print(counter)
+            counter[message.author.id][0] += 1
+            if counter[message.author.id][0] > 7:
+                difference = (datetime.now() - counter[message.author.id][1]).seconds
+                print(f"{message.author.display_name} : {difference}sec")
+                if difference < 29:
+                    await message.channel.purge(limit=2)
+                    if counter[message.author.id][0] % 2 == 0:
+                        await message.channel.send(f"```user {message.author.display_name} trying to spam```")
+                    # delete
+                else:
+                    counter[message.author.id] = [0, datetime.now()]
+
+    if str(message.content).lower() == "i":
         c = 0
         for m in message.guild.members:
             if not m.bot:
