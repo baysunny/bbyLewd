@@ -84,7 +84,7 @@ async def on_message(message):
             if counter[message.author.id][0] > 14:
                 difference = (datetime.now() - counter[message.author.id][1]).seconds
                 print(f"{message.author.display_name} : {difference}sec")
-                if difference < 29:
+                if difference < 15:
                     await message.channel.purge(limit=2)
                     if counter[message.author.id][0] % 2 == 0:
                         await message.channel.send(f"```user {message.author.display_name} trying to spam```")
