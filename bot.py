@@ -45,6 +45,7 @@ servers = {
     "test-server": 739864997865455626
 }
 channels = {
+    "user-channel": 764099351172874280,
     "log-channel": 768457244769517588,
     "message-channel": 768457273554108447,
     "image-channel": 769195772897787943,
@@ -210,7 +211,15 @@ async def on_member_update(before, after):
                 else:
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
                 if before.guild.id != 739864997865455626:
-                    await channel.send(f"{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}")
+                    await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
 
+
+@client.event
+async def on_user_update(before, after):
+    channel = client.get_channel(channels["user-channel"])
+    if not before.bot:
+        if channel is not None:
+            if after.avatar != before.avatar:
+                await channel.send(f"{get_current_time()} --:-- before.display_name updated avatar: {after.avatar_url}")
 
 client.run(token)
