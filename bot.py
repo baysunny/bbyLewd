@@ -81,7 +81,7 @@ async def on_message(message):
         else:
             print(counter)
             counter[message.author.id][0] += 1
-            if counter[message.author.id][0] > 7:
+            if counter[message.author.id][0] > 14:
                 difference = (datetime.now() - counter[message.author.id][1]).seconds
                 print(f"{message.author.display_name} : {difference}sec")
                 if difference < 29:
