@@ -241,6 +241,6 @@ async def on_user_update(before, after):
     if not before.bot:
         if channel is not None:
             if after.avatar != before.avatar:
-                await channel.send(f"{get_current_time()} --:-- before.display_name updated avatar: {after.avatar_url}")
+                await channel.send(f"{get_current_time()} --:-- {before.display_name} updated avatar: {after.avatar_url}")
 
 client.run(token)
