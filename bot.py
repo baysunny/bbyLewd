@@ -123,7 +123,8 @@ async def on_message(message):
 
             print("image type")
             channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name} : {message.content} : ", files=files)
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` \n{message.content}")
+            await channel.send(files=files)
         else:
             print("text type")
             channel = client.get_channel(channels["message-channel"])
@@ -131,7 +132,7 @@ async def on_message(message):
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-            await channel.send(f"{get_current_time()} | {message.channel.name} | {message.author.display_name}: \n{message.content}")
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` \n{message.content}")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
             # print(f"message  : {message.content} | {len(messages)}")
