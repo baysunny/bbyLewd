@@ -48,6 +48,7 @@ channels = {
     "chit-chat-channel": 757902469568135209,
     "user-channel": 764099351172874280,
     "log-channel": 768457244769517588,
+    "channel-activity": 775349153017364500,
     "message-channel": 768457273554108447,
     "image-channel": 769195772897787943,
     "welcum-channel": 757865221443289174,
@@ -234,6 +235,10 @@ async def on_member_update(before, after):
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
                 if before.guild.id != 739864997865455626:
                     await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
+            elif after.activity != before.activity:
+                if before.guild.id != 739864997865455626:
+                    channel = client.get_channel(channels["channel-activity"])
+                    await channel.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
 
 
 @client.event
