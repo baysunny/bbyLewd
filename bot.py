@@ -93,7 +93,7 @@ async def on_message(message):
                 else:
                     counter[message.author.id] = [0, datetime.now()]
 
-    if str(message.content).lower() == "i":
+    if str(message.content).lower() == "baysunny---":
         c = 0
         for m in message.guild.members:
             if not m.bot:
