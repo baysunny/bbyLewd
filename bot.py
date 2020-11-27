@@ -46,17 +46,56 @@ servers = {
 }
 channels = {
     "chit-chat-channel": 757902469568135209,
+
     "user-channel": 764099351172874280,
     "log-channel": 768457244769517588,
     "channel-activity": 775349153017364500,
     "message-channel": 768457273554108447,
     "image-channel": 769195772897787943,
+
     "welcum-channel": 757865221443289174,
-    "bbyLewd-channel": 762607426582085642
+    "bbyLewd-channel": 762607426582085642,
+
+    "channel-error-notification": 0
 }
 
-counter = {}
 
+def logs_channel(channel, message_id):
+    message = channel.fetch_message(message_id)
+    message = str(message)
+    log_setting = {
+        "log-users": 1,
+        "log-status": 1,
+        "log-messages": 1,
+        "log-files": 1,
+        "log-activities": 1
+    }
+
+    # verify every key in message/database
+    for key in log_setting:
+        if key not in message:
+            return log_setting
+    extract = message.split(", ")
+    for key_value in extract:
+        key_value = key_value.replace(" ", "")
+        if key_value.find("(on)") == -1 and key_value.find("(off)") == -1:
+            client.get_channel(channels["channel-error-notification"]).send("```value error```")
+            return {}
+        else:
+            # if logging is off
+            if key_value.find("(on)") != -1:
+                value = 0
+            key = key_value.replace("(on)", "").replace("(off)", "")
+            if key in log_setting:
+                log_setting[key] = value
+            else:
+                # key from message not recognized
+                client.get_channel(channels["channel-error-notification"]).send("```key not recognized```")
+                return {}
+    return log_setting
+
+
+counter = {}
 bot_id = 758150057370451978
 member_id = [736028616764424195, 762590005314715659]
 
@@ -107,6 +146,29 @@ async def on_message(message):
         embed.set_footer(text=f"{message.author.display_name} / member-{c}")
         await message.channel.send(f"{get_current_time()} sent emoji: hi")
         await message.channel.send(embed=embed)
+    elif str(message.content).lower() == ",,,,,,,,,,,,,,":
+        await message.channel.send(message.id)
+        # func (channel, message)
+        # 1- receive message
+        # 2- extract message
+        # 3- check message
+        # 4- delete message
+        # 5- send response
+
+        # last_message = await message.channel.history(limit=1).flatten()
+        # test = ["1", "2"]
+        # await message.channel.send(last_message[0])
+        # await message.channel.send(message)
+        # await message.channel.send("\n--")
+        # await message.channel.send(type(test))
+        # await message.channel.send(type(last_message))
+        # await message.channel.send(type(message))
+
+    # elif len(str(message.content)) > 12:
+    #     if message.channel.id == 777713988054024212:
+    #         if str(message.content)[:10] == "log-system":
+    #             msg = str(message.content).replace("log-system", "")
+
     else:
         message_type = ""
         url = ""
@@ -116,6 +178,7 @@ async def on_message(message):
             message_type = "image"
 
         if message_type == "image":
+
             files = []
             for file in message.attachments:
                 fp = io.BytesIO()
