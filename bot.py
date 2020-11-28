@@ -51,6 +51,7 @@ channels = {
     "log-channel": 768457244769517588,
     "channel-activity": 775349153017364500,
     "message-channel": 768457273554108447,
+    "deleted-message-channel": 782182267895283733,
     "image-channel": 769195772897787943,
 
     "welcum-channel": 757865221443289174,
@@ -187,7 +188,7 @@ async def on_message(message):
 
             print("image type")
             channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}```{message.content}")
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             await channel.send(files=files)
         else:
             print("text type")
@@ -196,7 +197,7 @@ async def on_message(message):
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}```{message.content}")
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
             # print(f"message  : {message.content} | {len(messages)}")
@@ -228,6 +229,31 @@ async def on_message(message):
                         print(mentioned_members[0].id)
                 else:
                     print(f"error 3: {len(messages)}")
+
+
+@client.event
+async def on_message_delete(message):
+    channel = client.get_channel(channels["deleted-message-channel"])
+    message_type = ""
+    url = ""
+    if len(message.attachments) != 0:
+        url = message.attachments[0].url
+        print(url)
+        message_type = "image"
+    if message_type == "image":
+
+        files = []
+        for file in message.attachments:
+            fp = io.BytesIO()
+            await file.save(fp)
+            files.append(discord.File(fp, filename=file.filename, spoiler=file.is_spoiler()))
+
+        print("image type")
+        await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+        await channel.send(files=files)
+    else:
+        print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
+        await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
 
 
 @client.event
