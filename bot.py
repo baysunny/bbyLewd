@@ -57,6 +57,8 @@ channels = {
     "welcum-channel": 757865221443289174,
     "bbyLewd-channel": 762607426582085642,
 
+    "i have been missing": 0,
+
     "channel-error-notification": 0
 }
 
@@ -147,8 +149,11 @@ async def on_message(message):
         embed.set_footer(text=f"{message.author.display_name} / member-{c}")
         await message.channel.send(f"{get_current_time()} sent emoji: hi")
         await message.channel.send(embed=embed)
-    elif str(message.content).lower() == ",,,,,,,,,,,,,,":
-        await message.channel.send(message.id)
+    elif str(message.content).lower() == "del del del":
+        channel = client.get_channel(757902469568135209)
+        print("deleting")
+        await channel.purge(limit=15)
+        print("deleted")
         # func (channel, message)
         # 1- receive message
         # 2- extract message
@@ -190,6 +195,11 @@ async def on_message(message):
             channel = client.get_channel(channels["image-channel"])
             await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             await channel.send(files=files)
+
+            channel = client.get_channel(channels["i have been missing"])
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            await channel.send(files=files)
+
         else:
             print("text type")
             channel = client.get_channel(channels["message-channel"])
@@ -197,6 +207,9 @@ async def on_message(message):
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
+            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+
+            channel = client.get_channel(channels["i have been missing"])
             await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
