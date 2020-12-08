@@ -57,7 +57,7 @@ channels = {
     "welcum-channel": 757865221443289174,
     "bbyLewd-channel": 762607426582085642,
 
-    "i have been missing": 0,
+    "i have been missing": 785944833541537802,
 
     "channel-error-notification": 0
 }
