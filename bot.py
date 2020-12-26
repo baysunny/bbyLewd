@@ -62,6 +62,15 @@ channels = {
     "channel-error-notification": 0
 }
 
+channels2 = {
+    "log-users": 792394987961581619,
+    "log-status": 792395682564669450,
+    "log-activities": 792396184764416041,
+    "log-messages": 792396537467895849,
+    "log-deleted-messages": 792396596486471691,
+    "log-files": 792396630623911986
+}
+
 
 def logs_channel(channel, message_id):
     message = channel.fetch_message(message_id)
@@ -192,25 +201,34 @@ async def on_message(message):
                 files.append(discord.File(fp, filename=file.filename, spoiler=file.is_spoiler()))
 
             print("image type")
-            channel = client.get_channel(channels["image-channel"])
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
-            await channel.send(files=files)
+            # =====================================
+            # channel = client.get_channel(channels["image-channel"])
+            channel2 = client.get_channel(channels2["log-files"])
+            # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            # await channel.send(files=files)
 
-            channel = client.get_channel(channels["i have been missing"])
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
-            await channel.send(files=files)
+            await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            await channel2.send(files=files)
+
+            # channel = client.get_channel(channels["i have been missing"])
+            # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            # await channel.send(files=files)
 
         else:
             print("text type")
-            channel = client.get_channel(channels["message-channel"])
+            # =====================================
+            # channel = client.get_channel(channels["message-channel"])
+            channel2 = client.get_channel(channels2["log-messages"])
+
             messages = str(message.content).lower().split()
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
 
-            channel = client.get_channel(channels["i have been missing"])
-            await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            # channel = client.get_channel(channels["i have been missing"])
+            # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             # print(f"author   : {message.author.display_name}")
             # print(f"mentioned: {mentioned_members} | {len(mentioned_members)}")
             # print(f"message  : {message.content} | {len(messages)}")
@@ -246,7 +264,10 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
-    channel = client.get_channel(channels["deleted-message-channel"])
+    # =====================================
+    # channel = client.get_channel(channels["deleted-message-channel"])
+    channel2 = client.get_channel(channels2["log-deleted-messages"])
+
     message_type = ""
     url = ""
     if len(message.attachments) != 0:
@@ -262,11 +283,17 @@ async def on_message_delete(message):
             files.append(discord.File(fp, filename=file.filename, spoiler=file.is_spoiler()))
 
         print("image type")
-        await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
-        await channel.send(files=files)
+        # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+        # await channel.send(files=files)
+
+        await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+        await channel2.send(files=files)
+
     else:
         print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
-        await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+        # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+
+        await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
 
 
 @client.event
@@ -322,9 +349,10 @@ async def on_member_remove(member):
 
 @client.event
 async def on_member_update(before, after):
-    channel = client.get_channel(channels["log-channel"])
+    # channel = client.get_channel(channels["log-channel"])
+    channel2 = client.get_channel(channels2["log-status"])
     if not before.bot:
-        if channel is not None:
+        if channel2 is not None:
             if after.status != before.status:
                 print(f"[{get_current_time()} status changed]")
                 print(f"-{before.nick} : {after.status}\n")
@@ -335,21 +363,30 @@ async def on_member_update(before, after):
                     emoji = "<:Paimon_dead_LC:762586355817381888>"
                 else:
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
-                if before.guild.id != 739864997865455626:
-                    await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
+                # if before.guild.id != 739864997865455626:
+                if before.guild.id != 792394312226570240:
+                    # await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
+                    await channel2.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
             elif after.activity != before.activity:
-                if before.guild.id != 739864997865455626:
-                    channel = client.get_channel(channels["channel-activity"])
-                    await channel.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
+                # if before.guild.id != 739864997865455626:
+                if before.guild.id != 792394312226570240:
+                    # channel = client.get_channel(channels["channel-activity"])
+                    channel2 = client.get_channel(channels["log-activities"])
+                    # await channel.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
+                    await channel2.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
 
 
 @client.event
 async def on_user_update(before, after):
-    channel = client.get_channel(channels["user-channel"])
+    # channel = client.get_channel(channels["user-channel"])
+    channel2 = client.get_channel(channels2["log-users"])
     if not before.bot:
         if channel is not None:
             if after.avatar != before.avatar:
-                await channel.send(f"```{get_current_time()} --:-- {before.display_name} updated avatar```")
-                await channel.send(f"{after.avatar_url}")
+                # await channel.send(f"```{get_current_time()} --:-- {before.display_name} updated avatar```")
+                # await channel.send(f"{after.avatar_url}")
+
+                await channel2.send(f"```{get_current_time()} --:-- {before.display_name} updated avatar```")
+                await channel2.send(f"{after.avatar_url}")
 
 client.run(token)
