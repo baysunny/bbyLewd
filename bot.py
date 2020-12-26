@@ -268,6 +268,9 @@ async def on_message_delete(message):
     # channel = client.get_channel(channels["deleted-message-channel"])
     channel2 = client.get_channel(channels2["log-deleted-messages"])
 
+    if message.channel.id == channel2:
+        return
+
     message_type = ""
     url = ""
     if len(message.attachments) != 0:
