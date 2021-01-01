@@ -384,7 +384,7 @@ async def on_user_update(before, after):
     # channel = client.get_channel(channels["user-channel"])
     channel2 = client.get_channel(channels2["log-users"])
     if not before.bot:
-        if channel is not None:
+        if channel2 is not None:
             if after.avatar != before.avatar:
                 # await channel.send(f"```{get_current_time()} --:-- {before.display_name} updated avatar```")
                 # await channel.send(f"{after.avatar_url}")
