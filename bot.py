@@ -7,6 +7,9 @@ from pytz import timezone
 import io
 
 
+# error send personal messages
+
+
 def get_current_time(tz='Asia/Jakarta'):
     fmt = '%I:%M:%S %p'
     eastern = timezone(tz)
@@ -119,6 +122,8 @@ gif_keys = {
 
 @client.event
 async def on_ready():
+    lewdie = client.get_user(532366409531916288)
+    await lewdie.send(f"```{get_current_time()} : BOT is running```")
     print(f"logged in as {client.user}\n")
 
 
@@ -127,6 +132,8 @@ async def on_message(message):
 
     if message.author.id == bot_id:
         return
+    # elif message.author.id == 532366409531916288:
+    #     await message.author.send(message.content)
     else:
         if message.author.id not in counter:
             counter[message.author.id] = [0, datetime.now()]
@@ -219,13 +226,18 @@ async def on_message(message):
             # =====================================
             # channel = client.get_channel(channels["message-channel"])
             channel2 = client.get_channel(channels2["log-messages"])
-
+            # lewdie = client.get_user_info(532366409531916288)
             messages = str(message.content).lower().split()
             mentioned_members = message.mentions
             print("\n======= new message")
             print(f"{get_current_time()} | {message.author.display_name}: {message.content}")
             # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+            if message.author.id == 747420254392811610:
+                me = client.get_user(532366409531916288)
+                me.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+
+            # await client.send(lewdie, f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
 
             # channel = client.get_channel(channels["i have been missing"])
             # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
@@ -374,7 +386,7 @@ async def on_member_update(before, after):
                 # if before.guild.id != 739864997865455626:
                 if before.guild.id != 792394312226570240:
                     # channel = client.get_channel(channels["channel-activity"])
-                    channel2 = client.get_channel(channels["log-activities"])
+                    channel2 = client.get_channel(channels2["log-activities"])
                     # await channel.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
                     await channel2.send(f"```{get_current_time()} --:-- {before.display_name} : [{after.activity}]```")
 
