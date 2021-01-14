@@ -7,9 +7,6 @@ from pytz import timezone
 import io
 
 
-# error send personal messages
-
-
 def get_current_time(tz='Asia/Jakarta'):
     fmt = '%I:%M:%S %p'
     eastern = timezone(tz)
@@ -235,9 +232,7 @@ async def on_message(message):
             await channel2.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
             if message.author.id == 747420254392811610:
                 me = client.get_user(532366409531916288)
-                me.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
-
-            # await client.send(lewdie, f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
+                await me.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
 
             # channel = client.get_channel(channels["i have been missing"])
             # await channel.send(f"```{get_current_time()} | {message.channel.name} | {message.author.display_name}``` {message.content}")
