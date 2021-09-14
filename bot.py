@@ -121,7 +121,7 @@ gif_keys = {
 @client.event
 async def on_ready():
     lewdie = client.get_user(532366409531916288)
-    await lewdie.send(f" 0.0kinsha ```{get_current_time()} : BOT is running```")
+    await lewdie.send(f"```{get_current_time()} : 0.0kinsha is running```")
     print(f"logged in as {client.user}\n")
 
 
