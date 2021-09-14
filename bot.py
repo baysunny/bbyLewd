@@ -67,6 +67,7 @@ channels2 = {
     "log-status": 792395682564669450,
     "log-activities": 792396184764416041,
     "log-messages": 792396537467895849,
+    "log-edited-messages": 887409260240175104,
     "log-deleted-messages": 792396596486471691,
     "log-files": 792396630623911986
 }
@@ -120,7 +121,7 @@ gif_keys = {
 @client.event
 async def on_ready():
     lewdie = client.get_user(532366409531916288)
-    await lewdie.send(f"```{get_current_time()} : BOT is running```")
+    await lewdie.send(f" 0.0kinsha ```{get_current_time()} : BOT is running```")
     print(f"logged in as {client.user}\n")
 
 
@@ -267,6 +268,14 @@ async def on_message(message):
                         print(mentioned_members[0].id)
                 else:
                     print(f"error 3: {len(messages)}")
+
+
+@client.event
+async def on_message_edit(before, after):
+    channel = client.get_channel(channels2["log-edited-messages"])
+    await channel.send(f"```{get_current_time()} | {before.channel.name} | {before.author.display_name}```"
+                       f"**Original-Message** : \n{before.content}\n"
+                       f"**Edited-Message**   : \n{after.content}")
 
 
 @client.event
