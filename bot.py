@@ -127,6 +127,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    emojis = [':Barbara_worried:', ':KeqingAyaya:', ':Hutao_sweat:', ':Nose_Bleed:', ':Satania_wut:', ':Satania_huh:',
+              ':Satania_Evil_smile:']
 
     if message.author.id == bot_id:
         return
@@ -183,13 +185,16 @@ async def on_message(message):
         # await message.channel.send(type(test))
         # await message.channel.send(type(last_message))
         # await message.channel.send(type(message))
-
+    elif str(message.content).lower() == "hello":
+        for emoji in emojis:
+            await message.add_reaction(emoji)
     # elif len(str(message.content)) > 12:
     #     if message.channel.id == 777713988054024212:
     #         if str(message.content)[:10] == "log-system":
     #             msg = str(message.content).replace("log-system", "")
 
     else:
+
         message_type = ""
         url = ""
         if len(message.attachments) != 0:
@@ -316,6 +321,13 @@ async def on_message_delete(message):
 
 
 @client.event
+async def on_reaction_add(reaction, user):
+    print('reaction')
+    print(user.name)
+    print(reaction.emoji)
+
+
+@client.event
 async def on_member_join(member):
     # server = client.get_guild(servers["lewd-server"])
     c = 0
@@ -374,7 +386,7 @@ async def on_member_update(before, after):
         if channel2 is not None:
             if after.status != before.status:
                 print(f"[{get_current_time()} status changed]")
-                print(f"-{before.nick} : {after.status}\n")
+                print(f"-{after.nick} : {after.status}\n")
                 emoji = ""
                 if str(after.status) == "online":
                     emoji = "<:Nep_owo_LC:762586025402826793>"
@@ -383,7 +395,7 @@ async def on_member_update(before, after):
                 else:
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
                 # if before.guild.id != 739864997865455626:
-                if before.guild.id != 792394312226570240:
+                if before.guild.id != 792394312226570240 && before.id != 532366409531916288:
                     # await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
                     await channel2.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
             elif after.activity != before.activity:
