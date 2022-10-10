@@ -379,7 +379,7 @@ async def on_member_remove(member):
 
 
 @client.event
-async def on_member_update(before, after):
+async def on_presence_update(before, after):
     # channel = client.get_channel(channels["log-channel"])
     channel2 = client.get_channel(channels2["log-status"])
     if not before.bot:
@@ -395,9 +395,9 @@ async def on_member_update(before, after):
                 else:
                     emoji = "<:Kelly_angel_LC:762586163500154900>"
                 # if before.guild.id != 739864997865455626:
-                if before.guild.id != 792394312226570240:
+                if before.guild.id != 792394312226570240 and before.id != 532366409531916288:
                     # await channel.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
-                    # print(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
+                    print(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
                     await channel2.send(f"```{get_current_time()} --:-- [{after.status}] --:-- {before.display_name}```")
             elif after.activity != before.activity:
                 # if before.guild.id != 739864997865455626:
