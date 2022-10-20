@@ -7,8 +7,6 @@ from pytz import timezone
 import io
 
 
-s = "just add"
-
 def get_current_time(tz='Asia/Jakarta'):
     fmt = '%I:%M:%S %p'
     eastern = timezone(tz)
@@ -37,10 +35,7 @@ def get_gif(search):
             gifs.append(url)
     return random.choice(gifs) if len(gifs) > 0 else ""
 
-
-
 token = ""
-
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
