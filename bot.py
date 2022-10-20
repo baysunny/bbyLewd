@@ -7,6 +7,8 @@ from pytz import timezone
 import io
 
 
+s = "just add"
+
 def get_current_time(tz='Asia/Jakarta'):
     fmt = '%I:%M:%S %p'
     eastern = timezone(tz)
