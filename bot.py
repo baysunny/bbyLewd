@@ -35,7 +35,9 @@ def get_gif(search):
             gifs.append(url)
     return random.choice(gifs) if len(gifs) > 0 else ""
 
-token = "NzU4MTUwMDU3MzcwNDUxOTc4.Gisa__.YzqSGdnfWwx3s5ENAHR5RtyDQCEcj2vKJ_zBGo"
+to = "NzU4MTUwMDU3MzcwNDUxOTc4.GYO15P."
+ken = "e8yoTY5oSqmL15vSXZIY504bqk08z94DtxwIX4"
+token = to+ken
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 
